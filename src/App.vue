@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- Navbar -->
-    <nav v-if="showNavAndFooter" class="relative bg-white shadow-md z-50">
+      <!-- Navbar -->
+      <nav v-if="showNavAndFooter" class="relative bg-white shadow-md z-50">
       <div class="container mx-auto px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
           <span class="text-2xl font-['Pacifico'] text-primary">logo</span>
@@ -18,12 +18,19 @@
           <div class="relative">
             <input type="text" placeholder="搜索课程、文化内容"
               class="pl-12 pr-4 py-2 w-64 border border-gray-200 rounded-button text-sm" style="padding-left: 2.3rem;">
-
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
           </div>
           <i class="far fa-bell text-gray-600 text-xl"></i>
-          <img src="https://ai-public.mastergo.com/ai/img_res/3d5789c1efb356132109ca5c002749a7.jpg"
-            class="w-10 h-10 rounded-full">
+          
+          <div v-if="isLogin" class="flex items-center space-x-2">
+            <span class="text-gray-700 text-base">{{ username }}</span>
+            <img src="https://ai-public.mastergo.com/ai/img_res/3d5789c1efb356132109ca5c002749a7.jpg"
+              class="w-10 h-10 rounded-full">
+          </div>
+          <div v-else>
+            <button @click="goLogin"
+              class="login-btn px-4 py-2 bg-primary text-white rounded-button hover:bg-red-600 transition">去登录</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -93,8 +100,20 @@ export default {
     showNavAndFooter() {
       return !['/login', '/reg', '/'].includes(this.$route.path);
     }
+  },
+  data() {
+    return {
+      isLogin: false,          // 登录状态
+      username: '张三'         // 登录用户昵称
+    }
+  },
+  methods: {
+    goLogin() {
+      this.$router.push('/login')
+    }
   }
 }
+
 </script>
 
 <style scoped>
@@ -305,4 +324,22 @@ nav img {
   color: #B91C1C !important;
   font-weight: 600;
 }
+
+.login-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #B91C1C;
+  color: #B91C1C;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background-color: transparent !important;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #B91C1C !important;
+  color: #fff;
+}
+
 </style>

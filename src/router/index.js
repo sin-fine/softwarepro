@@ -26,6 +26,9 @@ const routes=[
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(){
+    return {top:0}
+  },
   linkActiveClass: 'router-link-active',
   linkExactActiveClass: 'router-link-exact-active'
 })
