@@ -5,7 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#B91C1C',
+              secondary: '#1F4B8E'
+            },
+            borderRadius: {
+              'none': '0px',
+              'sm': '2px',
+              DEFAULT: '4px',
+              'md': '8px',
+              'lg': '12px',
+              'xl': '16px',
+              '2xl': '20px',
+              '3xl': '24px',
+              'full': '9999px',
+              'button': '4px'
+            },
+            fontFamily: {
+              'serif-sc': ['"Noto Serif SC"', 'serif'],
+              'pacifico': ['"Pacifico"', 'cursive']
+            }
+          }
+        }
+      }
+    </script>
   </head>
   <body>
     <noscript>
