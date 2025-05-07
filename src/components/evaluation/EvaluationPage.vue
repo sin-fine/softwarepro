@@ -1,4 +1,6 @@
 <template>
+  <div>
+
   <div class="h-[4px]" id="kong"></div>
   <main class="max-w-[1440px] mx-auto px-8 pt-24">
     <!-- 测评分类 -->
@@ -82,6 +84,8 @@
       </div>
     </section>
   </main>
+    
+  </div>
 </template>
 
 <script>

@@ -1,4 +1,6 @@
 <template>
+  <div>
+    
   <div class="h-[4px]" id="kong"></div>
   <main class="mt-16 container mx-auto px-4 md:px-6">
     <!-- 顶部导航 -->
@@ -89,6 +91,8 @@
       </div>
     </div>
   </main>
+</div>
+
 </template>
 
 <script setup>

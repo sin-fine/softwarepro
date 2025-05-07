@@ -1,4 +1,6 @@
 <template>
+  <div>
+
   <div class="h-[4px]" id="kong"></div>
   <main class="pt-16">
     <!-- Hero Section -->
@@ -93,6 +95,8 @@
       </div>
     </section>
   </main>
+</div>
+
 </template>
 
 <script>

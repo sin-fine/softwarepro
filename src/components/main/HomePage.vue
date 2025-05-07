@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="h-[4px]" id="kong"></div>
   <main class="pt-20">
     <!-- Hero Section -->
@@ -100,6 +101,7 @@
       </div>
     </section>
   </main>
+</div>
 </template>
 
 <script>

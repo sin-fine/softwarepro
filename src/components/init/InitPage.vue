@@ -2,10 +2,10 @@
   <div id="app">
     <section ref="section">
       <!-- 新背景图1 -->
-      <img src="../../public/images/bg1.png" alt=""
+      <img src="../../assets/init/bg1.png" alt=""
         id="one">
-      <img :style="{ '--i': 1 }" src="../../public/images/Cloud.png" alt="" id="two">
-      <img :style="{ '--i': 2 }" src="../../public/images/Cloud2.png" alt="" id="two">
+      <img :style="{ '--i': 1 }" src="../../assets/init/Cloud.png" alt="" id="two">
+      <img :style="{ '--i': 2 }" src="../../assets/init/Cloud2.png" alt="" id="two">
       <div id="run"></div>
       <h1 id="text">山水之道，传承千年文脉</h1>
     </section>
@@ -13,7 +13,7 @@
     <div class="bodyContainer">
       <div :class="{ hidden: !showBackground }" id="backgroundContainer">
         <!-- 新背景图2 -->
-        <img src="../../public/images/bg2.png"
+        <img src="../../assets/init/bg2.png"
           alt="Another Background" id="anotherBackground">
         <div>
           <p>山水之道</p>

@@ -3,14 +3,14 @@ import {
     createWebHistory
 } from 'vue-router'
 
-import Init from '@/components/InitPage.vue'
-import Login from '@/components/LoginPage.vue'
-import Reg from '@/components/RegPage.vue'
-import Home from '@/components/HomePage.vue'
-import Courses from '@/components/CoursesPage.vue'
-import Tasks from '@/components/TasksPage.vue'
-import Museum from '@/components/MuseumPage.vue'
-import Evaluation from '@/components/EvaluationPage.vue'
+import Init from '@/components/init/InitPage.vue'
+import Login from '@/components/login/LoginPage.vue'
+import Reg from '@/components/vice/RegPage.vue'
+import Home from '@/components/main/HomePage.vue'
+import Courses from '@/components/course/CoursesPage.vue'
+import Tasks from '@/components/task/TasksPage.vue'
+import Museum from '@/components/museum/MuseumPage.vue'
+import Evaluation from '@/components/evaluation/EvaluationPage.vue'
 
 const routes=[
   {path:'/',component:Init},
