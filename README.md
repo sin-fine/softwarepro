@@ -22,3 +22,5 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+npm install @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/vue-fontawesome@prerelease
