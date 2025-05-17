@@ -1,6 +1,8 @@
 <template>
   <div class="login-container">
     <div class="flex justify-center items-center min-h-screen">
+
+    
     <div class="w-[460px] bg-white/90 backdrop-blur-md p-10 rounded-xl shadow-lg border border-white/20">
       <div class="text-center mb-8">
         <h1 class="font-['Pacifico'] text-3xl text-primary mb-4">logo</h1>
@@ -38,7 +40,16 @@
           </div>
           
           <div class="space-y-4">
-            
+            <div class="relative">
+              <input v-model="captcha" type="text" placeholder="请输入验证码" class="w-full px-4 py-3 border border-gray-200 rounded-button text-sm pl-4 focus:border-primary">
+              <button 
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-primary text-sm whitespace-nowrap" 
+                @click="getCaptcha"
+                :disabled="countdown > 0"
+              >
+                {{ countdown > 0 ? `${countdown}s后重试` : '获取验证码' }}
+              </button>
+            </div>
             
             <div class="relative">
               <input 
@@ -120,17 +131,12 @@
       </div>
       
       <div class="text-center">
-          <span class="text-sm text-gray-600">还没有账号？</span>
-          <!-- 改为使用 router-link 跳转 -->
-          <router-link to="/register" class="text-sm text-primary hover:text-primary/80 ml-2">
-            立即注册
-          </router-link>
-          <span class="text-sm text-gray-400 mx-2">|</span>
-          <a href="#" class="text-sm text-primary hover:text-primary/80" @click="handleFindPassword">
-            找回密码
-          </a>
-        </div>
+        <span class="text-sm text-gray-600">还没有账号？</span>
+        <a href="#" class="text-sm text-primary hover:text-primary/80 ml-2" @click="handleRegister">立即注册</a>
+        <span class="text-sm text-gray-400 mx-2">|</span>
+        <a href="#" class="text-sm text-primary hover:text-primary/80" @click="handleFindPassword">找回密码</a>
       </div>
+    </div>
     
     <div class="fixed bottom-4 w-full text-center text-sm text-gray-400">
       Copyright © 2024 传统文化学习平台 All Rights Reserved.
@@ -140,9 +146,8 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
+
 // 响应式数据
 const loginMethod = ref('phone');
 const phone = ref('');
@@ -156,10 +161,10 @@ const email = ref('');
 const emailPassword = ref('');
 const rememberEmailPassword = ref(false);
 const isEmailPasswordVisible = ref(false);
-const router = useRouter();
-// // 验证码倒计时
-// const countdown = ref(0);
-// let countdownTimer = null;
+
+// 验证码倒计时
+const countdown = ref(0);
+let countdownTimer = null;
 
 // 生命周期钩子
 onMounted(() => {
@@ -180,38 +185,38 @@ onMounted(() => {
 
 onUnmounted(() => {
   // 组件卸载时清除定时器
-  // if (countdownTimer) {
-  //   clearInterval(countdownTimer);
-  // }
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+  }
 });
 
 // 手机号登录方法
-// const getCaptcha = () => {
-//   // 手机号格式验证
-//   const phoneRegex = /^1[3-9]\d{9}$/;
-//   if (!phoneRegex.test(phone.value)) {
-//     alert('请输入正确的手机号');
-//     return;
-//   }
+const getCaptcha = () => {
+  // 手机号格式验证
+  const phoneRegex = /^1[3-9]\d{9}$/;
+  if (!phoneRegex.test(phone.value)) {
+    alert('请输入正确的手机号');
+    return;
+  }
   
-//   // 开始倒计时
-//   countdown.value = 60;
-//   countdownTimer = setInterval(() => {
-//     countdown.value--;
-//     if (countdown.value <= 0) {
-//       clearInterval(countdownTimer);
-//     }
-//   }, 1000);
+  // 开始倒计时
+  countdown.value = 60;
+  countdownTimer = setInterval(() => {
+    countdown.value--;
+    if (countdown.value <= 0) {
+      clearInterval(countdownTimer);
+    }
+  }, 1000);
   
-//   // 实际项目中这里应该发送请求到后端获取验证码
-//   console.log('获取验证码，手机号:', phone.value);
-// };
+  // 实际项目中这里应该发送请求到后端获取验证码
+  console.log('获取验证码，手机号:', phone.value);
+};
 
 const togglePasswordVisibility = () => {
   isPasswordVisible.value = !isPasswordVisible.value;
 };
 
-const handlePhoneLogin = async () => {
+const handlePhoneLogin = () => {
   // 表单验证
   const phoneRegex = /^1[3-9]\d{9}$/;
   if (!phoneRegex.test(phone.value)) {
@@ -219,10 +224,10 @@ const handlePhoneLogin = async () => {
     return;
   }
   
-  // if (!captcha.value) {
-  //   alert('请输入验证码');
-  //   return;
-  // }
+  if (!captcha.value) {
+    alert('请输入验证码');
+    return;
+  }
   
   if (!password.value) {
     alert('请输入密码');
@@ -241,30 +246,6 @@ const handlePhoneLogin = async () => {
   }
   
   // 实际项目中这里应该发送登录请求到后端
-
-  try{
-    const response=await axios.post(
-      'http://10.18.39.108/api/user/login',{
-        phone: phone.value,
-        password: password.value
-      }
-    );
-    if (response.status === 200) {
-      const data = response.data;
-      alert('注册成功！');
-      // 注册成功后跳转登录页
-      localStorage.setItem('access_token', JSON.stringify(data));
-      router.push('/home');
-
-    } else {
-      alert('注册失败，请重试');
-    }
-  }catch (error) {
-    console.error('注册失败:', error);
-    alert('网络请求失败，请检查网络连接');
-  } finally {
-    // isLoading.value = false;
-  }
   console.log('手机号登录:', {
     phone: phone.value,
     captcha: captcha.value,
@@ -327,7 +308,10 @@ const handleSocialLogin = (platform) => {
   // 实际项目中这里应该跳转到对应平台的登录页面
 };
 
-
+const handleRegister = () => {
+  console.log('立即注册');
+  // 实际项目中这里应该跳转到注册页面
+};
 
 const handleFindPassword = () => {
   console.log('找回密码');

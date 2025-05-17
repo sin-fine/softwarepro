@@ -95,25 +95,49 @@
 </template>
 
 <script>
+import axios from 'axios'; 
 export default {
   computed: {
     showNavAndFooter() {
-      return !['/login', '/reg', '/'].includes(this.$route.path);
+        return this.$route.meta.showNavFooter !== false;
+      // return !['/login', '/reg', '/','/register'].includes(this.$route.path);
     }
+  },
+  mounted() { 
+    this.checkLoginStatus(); // 调用方法获取用户信息
   },
   data() {
     return {
       isLogin: false,          // 登录状态
-      username: '张三'         // 登录用户昵称
+      username: '张三',         // 登录用户昵称
+      userData: null
     }
   },
   methods: {
     goLogin() {
       this.$router.push('/login')
+    },
+    
+    async checkLoginStatus() { // 新增方法用于获取用户信息
+      const accessToken = localStorage.getItem('access_token');
+      if (accessToken) {
+        try {
+          const response = await axios.get('http://10.18.39.108:8000/api/user/me', {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          });
+          const userData = response.data;
+          this.isLogin = true;
+          this.userData = userData;
+          this.username = userData.name || '用户';
+        } catch (error) {
+          console.error('获取用户信息失败:', error);
+          this.isLogin = false;
+          localStorage.removeItem('access_token');
+        }
+      }
     }
   }
-}
-
+};
 </script>
 
 <style scoped>

@@ -105,6 +105,11 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
+// import { useRouter } from 'vue-router'; 
+import axios from 'axios'; 
+
+
 export default {
   name: 'HomePage',
   data() {
@@ -167,6 +172,35 @@ export default {
         { value: '15', label: '获得证书' }
       ]
     };
+  }
+};
+onMounted(() => {
+  // 从 localStorage 读取用户信息（页面刷新后依然存在）
+  const storedUser = localStorage.getItem('access_token');
+  if (storedUser) {
+    getUserInfo();
+  }
+});
+const getUserInfo = async () => {
+  const accessToken = localStorage.getItem('access_token');
+  if (!accessToken) {
+    // alert('请先登录');
+    return null;
+  }
+
+  try {
+    const response = await axios.get('http://10.18.39.108:8000/api/user/me', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}` // 关键：携带令牌
+      }
+    });
+    return response.data; // 返回用户信息
+  } catch (error) {
+    if (error.response?.status === 401) {
+      alert('认证失败，请重新登录');
+      localStorage.removeItem('access_token');
+    }
+    return null;
   }
 };
 </script>

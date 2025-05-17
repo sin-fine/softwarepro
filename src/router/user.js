@@ -38,5 +38,10 @@ export const userRoutes = [
         path: '/login',
         component: () => import('@/components/user/login/LoginPage.vue'),
         meta: { layout: 'user', showNavFooter: false  }
+    },
+    {
+        path: '/register',
+        component: () => import('@/components/user/login/RegisterPage.vue'),
+        meta: { layout: 'user', showNavFooter: false  }
     }
 ];
