@@ -140,9 +140,10 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+// import axios from 'axios';
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import request from '@/utils/request' 
 // 响应式数据
 const loginMethod = ref('phone');
 const phone = ref('');
@@ -239,32 +240,39 @@ const handlePhoneLogin = async () => {
     localStorage.removeItem('phone');
     localStorage.removeItem('phonePassword');
   }
-  
-  // 实际项目中这里应该发送登录请求到后端
 
   try{
-    const response=await axios.post(
-      'http://10.18.39.108/api/user/login',{
+    const response=await request.post(
+      '/api/user/login',{
         phone: phone.value,
         password: password.value
       }
     );
     if (response.status === 200) {
-      const data = response.data;
-      alert('注册成功！');
-      // 注册成功后跳转登录页
-      localStorage.setItem('access_token', JSON.stringify(data));
+      console.log('登录返回的 Token:', response.data.access_token);
+      localStorage.setItem('access_token', response.data.access_token);
+      console.log('localStorage 中的 Token:', localStorage.getItem('access_token')); // 检查存储是否成功
+    
       router.push('/home');
-
+      // if (typeof getUserInfo === 'function') {
+      //   getUserInfo(); // 直接调用
+      // } else {
+      //   // 或通过路由导航守卫触发
+      //   router.afterEach(() => {
+      //     // 在主页组件中执行获取用户信息的逻辑
+      //     const homeVm = this.$router.currentRoute.value.matched.find(record => record.components.default === HomePage);
+      //     if (homeVm) {
+      //       homeVm.getUserInfo();
+      //     }
+      //   });
+      // }
     } else {
-      alert('注册失败，请重试');
+      alert('登录失败，请重试');
     }
   }catch (error) {
-    console.error('注册失败:', error);
+    console.error('登录失败:', error);
     alert('网络请求失败，请检查网络连接');
-  } finally {
-    // isLoading.value = false;
-  }
+  } 
   console.log('手机号登录:', {
     phone: phone.value,
     captcha: captcha.value,
@@ -272,8 +280,7 @@ const handlePhoneLogin = async () => {
     rememberPassword: rememberPassword.value
   });
   
-  // 模拟登录成功
-  alert('登录成功！');
+  // alert('登录成功！');
 };
 
 // 邮箱登录方法

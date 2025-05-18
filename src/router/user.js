@@ -20,19 +20,9 @@ export const userRoutes = [
         meta: { layout: 'user', showNavFooter: true  }
     },
     {
-        path: '/elvaluation',
+        path: '/evaluation ',
         component: () => import('@/components/user/evaluation/EvaluationPage.vue'),
         meta: { layout: 'user' , showNavFooter: true }
-    },
-    {
-        path: '/reg',
-        component: () => import('@/components/user/course/CoursesPage.vue'),
-        meta: { layout: 'user', showNavFooter: true  }
-    },
-    {
-        path: '/courses',
-        component: () => import('@/components/user/vice/RegPage.vue'),
-        meta: { layout: 'user', showNavFooter: true  }
     },
     {
         path: '/login',
@@ -43,5 +33,10 @@ export const userRoutes = [
         path: '/register',
         component: () => import('@/components/user/login/RegisterPage.vue'),
         meta: { layout: 'user', showNavFooter: false  }
+    },
+    {
+        path: '/info',
+        component: () => import('@/components/user/ownMessage/MsgPage.vue'),
+        meta: { layout: 'user', showNavFooter: true  }
     }
 ];

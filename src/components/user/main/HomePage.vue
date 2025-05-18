@@ -105,11 +105,10 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
 // import { useRouter } from 'vue-router'; 
-import axios from 'axios'; 
-
-
+// import axios from 'axios'; 
+// import request from '@/utils/request' 
+import { getUserInfo } from '@/utils/auth';
 export default {
   name: 'HomePage',
   data() {
@@ -170,39 +169,54 @@ export default {
         { value: '85%', label: '课程完成率' },
         { value: '1,280', label: '获得积分' },
         { value: '15', label: '获得证书' }
-      ]
+      ],
+      userInfo:null
     };
-  }
-};
-onMounted(() => {
-  // 从 localStorage 读取用户信息（页面刷新后依然存在）
-  const storedUser = localStorage.getItem('access_token');
-  if (storedUser) {
-    getUserInfo();
-  }
-});
-const getUserInfo = async () => {
-  const accessToken = localStorage.getItem('access_token');
-  if (!accessToken) {
-    // alert('请先登录');
-    return null;
-  }
-
-  try {
-    const response = await axios.get('http://10.18.39.108:8000/api/user/me', {
-      headers: {
-        'Authorization': `Bearer ${accessToken}` // 关键：携带令牌
+  },
+  async mounted() {
+    await this.fetchUserInfo();
+  },
+  watch: {
+    $route(to) {
+      if (to.path === '/home') {
+        this.fetchUserInfo();
       }
-    });
-    return response.data; // 返回用户信息
-  } catch (error) {
-    if (error.response?.status === 401) {
-      alert('认证失败，请重新登录');
-      localStorage.removeItem('access_token');
     }
-    return null;
+  },
+  methods: {
+    async fetchUserInfo() {
+      const user = await getUserInfo();
+      if (user) {
+        this.userInfo = user;
+      } else {
+        // 未登录或 Token 无效，跳转到登录页
+        // this.$router.push('/login');
+      }
+    }
   }
 };
+  // onMounted() {
+  //   this.fetchUserInfo();
+  // },
+  // watch: {
+  //   $route(to) {
+  //     if (to.path === '/home') {
+  //       this.fetchUserInfo();
+  //     }
+  //   }
+  // },
+//   methods: {
+//     async fetchUserInfo() {
+//       const user = await getUserInfo();
+//       if (user) {
+//         this.userInfo = user;
+//       } else {
+//         // 未登录时跳转到登录页（可选）
+//         this.$router.push('/login');
+//       }
+//     }
+//   }
+// };
 </script>
 
 <style scoped>

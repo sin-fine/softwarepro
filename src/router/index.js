@@ -8,7 +8,6 @@ import { adminRoutes } from './admin';
 import Init from '@/components/init/InitPage.vue'
 import UserLayout from '@/components/layout/UserLayout.vue'
 import AdminLayout from '@/components/layout/AdminLayout.vue';
-
 const routes=[
   {path:'/',component:Init,meta: {showNavFooter: false }},
   {
@@ -18,7 +17,7 @@ const routes=[
     },
     {
       path: '/admin',
-      redirect:'/admin/static',
+      redirect:'/admin/login',
       component: AdminLayout,
       children: adminRoutes,
       meta: {showNavFooter: false }

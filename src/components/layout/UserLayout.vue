@@ -24,8 +24,12 @@
           
           <div v-if="isLogin" class="flex items-center space-x-2">
             <span class="text-gray-700 text-base">{{ username }}</span>
-            <img src="https://ai-public.mastergo.com/ai/img_res/3d5789c1efb356132109ca5c002749a7.jpg"
-              class="w-10 h-10 rounded-full">
+            <router-link to="/info" class="hover:text-primary">
+              <img 
+                :src="userInfo?.avatar || defaultAvatar" 
+                class="w-10 h-10 rounded-full"
+              >
+            </router-link>
           </div>
           <div v-else>
             <button @click="goLogin"
@@ -95,7 +99,7 @@
 </template>
 
 <script>
-import axios from 'axios'; 
+import { getUserInfo } from '@/utils/auth';
 export default {
   computed: {
     showNavAndFooter() {
@@ -109,8 +113,16 @@ export default {
   data() {
     return {
       isLogin: false,          // 登录状态
-      username: '张三',         // 登录用户昵称
-      userData: null
+      username: '',         // 登录用户昵称
+      userInfo: null,
+      defaultAvatar: 'https://ai-public.mastergo.com/ai/img_res/3d5789c1efb356132109ca5c002749a7.jpg', // 默认头像 URL
+    }
+  },
+  watch: {
+    $route(to) {
+      if (to.path === '/home') {
+        this.checkLoginStatus();
+      }
     }
   },
   methods: {
@@ -119,22 +131,13 @@ export default {
     },
     
     async checkLoginStatus() { // 新增方法用于获取用户信息
-      const accessToken = localStorage.getItem('access_token');
-      if (accessToken) {
-        try {
-          const response = await axios.get('http://10.18.39.108:8000/api/user/me', {
-            headers: { Authorization: `Bearer ${accessToken}` }
-          });
-          const userData = response.data;
-          this.isLogin = true;
-          this.userData = userData;
-          this.username = userData.name || '用户';
-        } catch (error) {
-          console.error('获取用户信息失败:', error);
-          this.isLogin = false;
-          localStorage.removeItem('access_token');
-        }
-      }
+      const user = await getUserInfo();
+      if (user) {
+        this.userInfo = user;
+        this.username=this.userInfo.name;
+
+        this.isLogin=true;
+      } 
     }
   }
 };
