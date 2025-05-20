@@ -124,6 +124,7 @@ export default {
           price: '免费',
           learners: '12,345'
         },
+        
         {
           img: 'https://ai-public.mastergo.com/ai/img_res/eb43bc9afe6bc0798aec17e931de004f.jpg',
           tag: '进阶',
