@@ -293,50 +293,8 @@ const handleRegister = async () => {
   } finally {
     isLoading.value = false;
   }
-};// const handleRegister = async () => {
-//   if (!isFormValid.value || !agreed.value) {
-//     alert('请检查表单填写是否正确');
-//     return;
-//   }
+};
 
-//   isLoading.value = true;
-
-//   try {
-//     // 发送注册请求
-//     const response = await request.post(
-//       '/api/user/register', 
-//       {
-//         phone: form.value.phone,
-//         password: form.value.password,
-//         name: form.value.name,
-//         openid: '', // 可选参数，如有第三方登录再传
-//       }
-//     );
-
-//     if (response.status === 200) {
-//       const data = response.data;
-//       alert('注册成功！');
-//       router.push('/login'); // 注册成功后跳转登录页
-
-//       // 存储用户信息（示例）
-//       localStorage.setItem('userInfo', JSON.stringify(data));
-//     } else {
-//     // 服务器返回非 200 状态码（如 400、500）
-//     console.log('非 200 状态码:', response.status);
-//     console.log('错误信息:', response.data.message);
-//   }
-//   } catch (error) {
-//       if (error.response?.status === 422) {
-//         const errors = error.response.data.detail;
-//         alert(`参数错误：${errors[0].msg}`); // 显示具体错误信息
-//       } else {
-//         alert('网络请求失败，请检查网络连接');
-//       }
-//       console.error('注册失败:', error);
-//     } finally {
-//     isLoading.value = false;
-//   }
-// };
 
 // 清除定时器
 onUnmounted(() => {

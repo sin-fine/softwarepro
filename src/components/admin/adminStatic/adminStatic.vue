@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main-content">
         <h1>adsafsf</h1>
     </div>
 </template>
@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style>
-
+.main-content{
+margin-left: 256px;
+}
 </style>

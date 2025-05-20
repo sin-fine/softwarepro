@@ -14,10 +14,16 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     const token = localStorage.getItem('access_token');
+    const admintoken = localStorage.getItem('admin_token');
+
     console.log('请求携带的 Token:', token); 
     if (token) {
       // 注意：必须以 "Bearer " 开头（有空格）
       config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    if (admintoken) {
+      // 注意：必须以 "Bearer " 开头（有空格）
+      config.headers['Authorization'] = `Bearer ${admintoken}`;
     }
     return config;
   },
@@ -27,16 +33,36 @@ service.interceptors.request.use(
   }
 );
 
-// 响应拦截器（处理 401 错误）
+// utils/request.js（响应拦截器）
 service.interceptors.response.use(
   response => response,
-  error => {
-    if (error.response.status === 401) {
-      // Token 无效或过期，跳转到登录页
-      console.error('Token 验证失败，跳转到登录页');
+  async error => {
+    const { response, config } = error;
+    
+    // 处理 401 未认证错误
+    if (response?.status === 401) {
+      let targetLoginPath = '/admin/login'; // 默认跳转管理端（可根据业务调整）
+      
+      // 1. 从当前路由元信息获取端类型（适用于页面路由跳转）
+      const currentRouteType = router.currentRoute.value.meta.type;
+      
+      // 2. 从请求配置中获取端类型（适用于直接 API 请求）
+      const requestRouteType = config?.meta?.type;
+      
+      // 优先使用请求配置中的端类型，其次使用当前路由的端类型
+      const routeType = requestRouteType || currentRouteType;
+      
+      if (routeType === 'user') {
+        targetLoginPath = '/login'; // 用户端登录页路径
+      } else if (routeType === 'admin') {
+        targetLoginPath = '/admin/login'; // 管理端登录页路径
+      }
+
+      // 清除 Token 并跳转
       localStorage.removeItem('access_token');
-      router.push('/login');
+      await router.push(targetLoginPath);
     }
+
     return Promise.reject(error);
   }
 );
