@@ -92,6 +92,7 @@ const handleLogin = async () => {
         if (response.status === 200) {
             ElMessage.success('登录成功');
             localStorage.setItem('admin_token', response.data.access_token);
+            console.log('存储的 Token:', localStorage.getItem('admin_token')); // 检查是否存在
             // 存储用户名（密码不建议明文存储）
             if (rememberMe.value) {
                 localStorage.setItem('username', username.value);

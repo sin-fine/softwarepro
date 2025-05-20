@@ -20,7 +20,7 @@ export const userRoutes = [
         meta: { layout: 'user', showNavFooter: true  }
     },
     {
-        path: '/evaluation ',
+        path: '/evaluation',
         component: () => import('@/components/user/evaluation/EvaluationPage.vue'),
         meta: { layout: 'user' , showNavFooter: true }
     },
